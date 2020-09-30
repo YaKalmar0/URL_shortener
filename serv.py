@@ -26,7 +26,9 @@ def create_url():
 
     result = redis.get(full_url)
     if result != None:
+        print(f"result, {result}")
         short = redis.get(result)
+        print(f"short: {short}")
         return f"Shortened URL for {full_url} is: {short}"
     else:
         short_url = ''.join(secrets.choice(alphabet) for i in range(url_len))
@@ -38,8 +40,6 @@ def create_url():
             url_life = 90*24*60*60 #90 days
         redis.set(full_url, short_url, url_life)
         redis.set(short_url, full_url, url_life)
-
-        print(short_url)
         return f"Shortened URL for {full_url} is: {short_url}\n\n"
         
 
