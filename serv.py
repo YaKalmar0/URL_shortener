@@ -22,7 +22,7 @@ def create_url():
     url_life = data['url_life']
 
     if not full_url.startswith('http://') and not full_url.startswith('https://'):
-        make_response('Invalid URL format', 400)
+        make_response('<h2>Invalid URL format</h2>', 400)
 
     result = redis.get(full_url)
     if result != None:
@@ -45,7 +45,7 @@ def redirection(path):
     redir = redis.get(path)
 
     if not redir:
-        return make_response("Could not establish connection", 404)
+        return make_response("<h2>Could not establish connection</h2>", 404)
     else:
         return redirect(redir, 302)
 
