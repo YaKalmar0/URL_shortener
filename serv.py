@@ -1,5 +1,5 @@
 import redis
-from flask import  Flask, request, redirect, abort
+from flask import  Flask, request, redirect, abort, render_template
 from string import digits, ascii_letters
 import secrets
 
@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return f'Welcome to my page!'
+    return render_template('index.html')
 
 @app.route('/create_path', methods=['POST'])
 def create_path():
