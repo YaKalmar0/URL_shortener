@@ -39,9 +39,9 @@ def create_path():
         return f"Shortened URL for {full_url} is: /{short_url}\n"
         
 
-@app.route('/<url:url>', methods=['GET'])
-def redirection(url):
-    redir = redis.get(url)
+@app.route('/<path:path>', methods=['GET'])
+def redirection(path):
+    redir = redis.get(path)
 
     if not redir:
         return f"Could not establish connnection."
