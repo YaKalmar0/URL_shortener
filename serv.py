@@ -36,5 +36,9 @@ def create_path():
         redis.set(full_url, short_url, default_life)
         redis.set(short_url, full_url, default_life)
 
+        return f"Shortened URL for {full_url} is: /{short_url}"
+        
+
+    
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=1111)
