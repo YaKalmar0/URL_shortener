@@ -1,2 +1,2 @@
 # URL_shortener
-A simple url-shortener on Flask and Redis.
+A simple url-shortener based on Flask and Redis.
