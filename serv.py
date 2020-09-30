@@ -14,7 +14,7 @@ app = Flask(__name__, template_folder='templates/')
 def index():
     return render_template('index.html')
 
-@app.route('/create_path', methods=['POST'])
+@app.route('/create_url', methods=['POST'])
 def create_url():
     data = request.get_json()
 
@@ -27,7 +27,7 @@ def create_url():
     result = redis.get(full_url)
     if result != None:
         result = redis.get(result)
-        return f"Shortened URL for {full_url} is: /{result}"
+        return f"Shortened URL for {full_url} is: {result}"
     else:
         short_url = ''.join(secrets.choice(alphabet) for i in range(url_len))
 
