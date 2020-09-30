@@ -35,7 +35,5 @@ def create_path():
         redis.lpush(full_url, short_url)
         redis.lpush(short_url, full_url)
 
-
-
-
-
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=80)
