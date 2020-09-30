@@ -1,5 +1,5 @@
 import redis
-from flask import  Flask, request, redirect, abort, render_template
+from flask import  Flask, request, redirect, abort, make_response
 from string import digits, ascii_letters
 import secrets
 
@@ -12,7 +12,7 @@ app = Flask(__name__, template_folder='templates/')
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return "<h1>Welcome to URL-shortener!</h1>"
 
 @app.route('/create_url', methods=['POST'])
 def create_url():
@@ -22,11 +22,11 @@ def create_url():
     url_life = data['url_life']
 
     if not full_url.startswith('http://') and not full_url.startswith('https://'):
-        abort(400, description='Invalid URL format\n')
+        make_response('Invalid URL format', 400)
 
     result = redis.get(full_url)
     if result != None:
-        return f"Shortened URL for {full_url} is: {result}"
+        return f"Shortened URL for {full_url} already exists: /{result}"
     else:
         short_url = ''.join(secrets.choice(alphabet) for i in range(url_len))
 
@@ -37,7 +37,7 @@ def create_url():
             url_life = 90*24*60*60 #90 days
         redis.set(full_url, short_url, url_life)
         redis.set(short_url, full_url, url_life)
-        return f"Shortened URL for {full_url} is: {short_url}\n\n"
+        return f"Shortened URL for {full_url} is: /{short_url}\n\n"
         
 
 @app.route('/<path:path>', methods=['GET'])
