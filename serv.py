@@ -19,8 +19,10 @@ def create_path():
     data = request.get_json()
 
     full_url = data['full_url']
+    url_life = data['url_life']
+
     if not full_url.startswith('http://') and not full_url.startswith('https://'):
-        abort(400, description='Invalid URL format')
+        abort(400, description='Invalid URL format\n')
 
     result = redis.get(full_url)
     if result != None:
@@ -32,11 +34,12 @@ def create_path():
         while redis.get(short_url):
             short_url = ''.join(secrets.choice(alphabet) for i in range(url_len))
         
-        default_life = 90*24*60*60
-        redis.set(full_url, short_url, default_life)
-        redis.set(short_url, full_url, default_life)
+        if not url_life:
+            url_life = 90*24*60*60 #90 days
+        redis.set(full_url, short_url, url_life)
+        redis.set(short_url, full_url, url_life)
 
-        return f"Shortened URL for {full_url} is: /{short_url}\n"
+        return f"Shortened URL for {full_url} is: {short_url}\n\n"
         
 
 @app.route('/<path:path>', methods=['GET'])
@@ -44,7 +47,7 @@ def redirection(path):
     redir = redis.get(path)
 
     if not redir:
-        return f"Could not establish connnection."
+        return make_response("Could not establish connection", 404)
     else:
         return redirect(redir, 302)
 
