@@ -24,7 +24,7 @@ def create_url():
     if not full_url.startswith('http://') and not full_url.startswith('https://'):
         abort(400, description='Invalid URL format\n')
 
-    result = redis.get(full_url)
+    result = redis.get(full_url).decode('ascii')
     if result != None:
         result = redis.get(result)
         return f"Shortened URL for {full_url} is: {result}"
