@@ -15,7 +15,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/create_path', methods=['POST'])
-def create_path():
+def create_url():
     data = request.get_json()
 
     full_url = data['full_url']
@@ -39,6 +39,7 @@ def create_path():
         redis.set(full_url, short_url, url_life)
         redis.set(short_url, full_url, url_life)
 
+        print(short_url)
         return f"Shortened URL for {full_url} is: {short_url}\n\n"
         
 
