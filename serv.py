@@ -7,12 +7,11 @@ url_len = 7
 alphabet = digits + ascii_letters
 
 redis = redis.StrictRedis(password = 'f7pRRwDOfw9Xj8n9a7F/8wfI+z3hUsPJ9BXK6BU38FhcXCASOXdaagPkmyfzTXAc0DBHCiDGkQPAAtvv', decode_responses=True)
-
 app = Flask(__name__, template_folder='templates/')
 
 @app.route('/')
 def index():
-    return "<h1>Welcome to URL-shortener!</h1>"
+    return "<h1>Welcome to the URL-shortener!</h1>"
 
 @app.route('/create_url', methods=['POST'])
 def create_url():
