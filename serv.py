@@ -1,5 +1,5 @@
 import redis
-from flask import  Flask, request, redirect, abort, make_response
+from flask import  Flask, request, redirect, make_response
 from string import digits, ascii_letters
 import secrets
 
@@ -9,9 +9,11 @@ alphabet = digits + ascii_letters
 redis = redis.StrictRedis(password = 'f7pRRwDOfw9Xj8n9a7F/8wfI+z3hUsPJ9BXK6BU38FhcXCASOXdaagPkmyfzTXAc0DBHCiDGkQPAAtvv', decode_responses=True)
 app = Flask(__name__, template_folder='templates/')
 
+
 @app.route('/')
 def index():
     return "<h1>Welcome to the URL-shortener!</h1>"
+
 
 @app.route('/create_url', methods=['POST'])
 def create_url():
