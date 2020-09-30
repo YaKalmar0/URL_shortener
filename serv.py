@@ -6,7 +6,7 @@ import secrets
 url_len = 7
 alphabet = digits + ascii_letters
 
-redis = redis.Redis(password= 'f7pRRwDOfw9Xj8n9a7F/8wfI+z3hUsPJ9BXK6BU38FhcXCASOXdaagPkmyfzTXAc0DBHCiDGkQPAAtvv')
+redis = redis.Redis(password = 'f7pRRwDOfw9Xj8n9a7F/8wfI+z3hUsPJ9BXK6BU38FhcXCASOXdaagPkmyfzTXAc0DBHCiDGkQPAAtvv')
 
 app = Flask(__name__, template_folder='templates/')
 
@@ -36,9 +36,18 @@ def create_path():
         redis.set(full_url, short_url, default_life)
         redis.set(short_url, full_url, default_life)
 
-        return f"Shortened URL for {full_url} is: /{short_url}"
+        return f"Shortened URL for {full_url} is: /{short_url}\n"
         
 
-    
+@app.route('/<url:url>', methods=['GET'])
+def redirection(url):
+    redir = redis.get(url)
+
+    if not redir:
+        return f"Could not establish connnection."
+    else:
+        return redirect(redir, 302)
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=1111)
