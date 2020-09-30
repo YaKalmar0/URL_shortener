@@ -19,7 +19,10 @@ def create_url():
     data = request.get_json()
 
     full_url = data['full_url']
-    url_life = data['url_life']
+    try:
+        url_life = data['url_life']
+    except KeyError:
+        url_life = 90*24*60*60
 
     if not full_url.startswith('http://') and not full_url.startswith('https://'):
         make_response('<h2>Invalid URL format</h2>', 400)
@@ -33,7 +36,7 @@ def create_url():
         while redis.get(short_url):
             short_url = ''.join(secrets.choice(alphabet) for i in range(url_len))
         
-        if not url_life:
+        if url_life<=0:
             url_life = 90*24*60*60 #90 days
         redis.set(full_url, short_url, url_life)
         redis.set(short_url, full_url, url_life)
