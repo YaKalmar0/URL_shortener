@@ -26,10 +26,7 @@ def create_url():
 
     result = redis.get(full_url)
     if result != None:
-        print(f"result, {result}")
-        short = redis.get(result)
-        print(f"short: {short}")
-        return f"Shortened URL for {full_url} is: {short}"
+        return f"Shortened URL for {full_url} is: {result}"
     else:
         short_url = ''.join(secrets.choice(alphabet) for i in range(url_len))
 
