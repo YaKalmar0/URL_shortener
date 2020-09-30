@@ -22,18 +22,19 @@ def create_path():
     if not full_url.startswith('http://') and not full_url.startswith('https://'):
         abort(400, description='Invalid URL format')
 
-    result = redis.lindex(urls, full_url)
+    result = redis.get(full_url)
     if result != None:
-        result = redis.lindex(urls, result+1)
-        return f"Shotened URL for {full_url} is: {result}"
+        result = redis.get(result)
+        return f"Shortened URL for {full_url} is: /{result}"
     else:
         short_url = ''.join(secrets.choice(alphabet) for i in range(url_len))
 
         while redis.get(short_url):
             short_url = ''.join(secrets.choice(alphabet) for i in range(url_len))
         
-        redis.lpush(full_url, short_url)
-        redis.lpush(short_url, full_url)
+        default_life = 90*24*60*60
+        redis.set(full_url, short_url, default_life)
+        redis.set(short_url, full_url, default_life)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=1111)
