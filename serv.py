@@ -1,7 +1,7 @@
 import redis
 from flask import  Flask, request, redirect, make_response
 from string import digits, ascii_letters
-import secrets
+import random
 
 url_len = 7
 alphabet = digits + ascii_letters
@@ -32,10 +32,10 @@ def create_url():
     if result != None:
         return f"Shortened URL for {full_url} already exists: /{result}\n\n"
     else:
-        short_url = ''.join(secrets.choice(alphabet) for i in range(url_len))
+        short_url = ''.join(random.choice(alphabet) for i in range(url_len))
 
         while redis.get(short_url):
-            short_url = ''.join(secrets.choice(alphabet) for i in range(url_len))
+            short_url = ''.join(random.choice(alphabet) for i in range(url_len))
         
         if url_life<=0:
             url_life = 90*24*60*60 #90 days
