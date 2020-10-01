@@ -7,12 +7,12 @@ url_len = 7
 alphabet = digits + ascii_letters
 
 redis = redis.StrictRedis(decode_responses=True)
-app = Flask(__name__, template_folder='templates/')
+app = Flask(__name__)
 
 
 @app.route('/')
 def index():
-    return "<h1>Welcome to the URL-shortener!</h1>"
+    return "<h1>Welcome to my URL-shortener!</h1>\n\n<h2>GitHub: YaKalmar0</h2>"
 
 
 @app.route('/create_url', methods=['POST'])
@@ -30,7 +30,7 @@ def create_url():
 
     result = redis.get(full_url)
     if result != None:
-        return f"Shortened URL for {full_url} already exists: /{result}"
+        return f"Shortened URL for {full_url} already exists: /{result}\n\n"
     else:
         short_url = ''.join(secrets.choice(alphabet) for i in range(url_len))
 
@@ -39,6 +39,9 @@ def create_url():
         
         if url_life<=0:
             url_life = 90*24*60*60 #90 days
+        else:
+            url_life = url_life*24*60*60 
+
         redis.set(full_url, short_url, url_life)
         redis.set(short_url, full_url, url_life)
         return f"Shortened URL for {full_url} is: /{short_url}\n\n"
