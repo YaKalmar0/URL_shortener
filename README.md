@@ -37,4 +37,4 @@ Or you can simply follow the link `localhost:8080/U9xshKw` in  your browser.
 
 **OR**
 
-You can temporarily use my link for testing: yakalmar.tplinkdns.com:5000
+You can temporarily use my link for testing: `yakalmar.tplinkdns.com:5000`
