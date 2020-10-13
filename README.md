@@ -34,7 +34,3 @@ Here is an example of `GET` request previously shrinked URL:
 ```
 
 Or you can simply follow the link `localhost:8080/U9xshKw` in  your browser.
-
-**OR**
-
-You can temporarily use my link for testing: `http://yakalmar.tplinkdns.com`
