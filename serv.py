@@ -26,7 +26,7 @@ def create_url():
         url_life = 90*24*60*60
 
     if not full_url.startswith('http://') and not full_url.startswith('https://'):
-        make_response('<h2>Invalid URL format</h2>', 400)
+        return make_response('<h2>Invalid URL format</h2>', 400)
 
     result = redis.get(full_url)
     if result != None:
